@@ -192,15 +192,6 @@
       keywordWrap.appendChild(kw);
     });
 
-    const materialsWrap = document.createElement("div");
-    materialsWrap.className = "card__materials";
-    item.materials.forEach((m) => {
-      const badge = document.createElement("span");
-      badge.className = "material-badge";
-      badge.textContent = m;
-      materialsWrap.appendChild(badge);
-    });
-
     const cta = document.createElement("span");
     cta.className = "card__cta";
     cta.textContent = "자세히 보기";
@@ -211,7 +202,6 @@
     card.appendChild(title);
     card.appendChild(topic);
     card.appendChild(keywordWrap);
-    card.appendChild(materialsWrap);
     card.appendChild(cta);
 
     card.addEventListener("click", () => openModal(item, card));
@@ -521,7 +511,21 @@
   });
 
   // ---------------------------------------------------------------------
-  // 초기 렌더
+  // 초기 렌더 (로컬 데이터로 즉시 표시)
   // ---------------------------------------------------------------------
   render();
+
+  // ---------------------------------------------------------------------
+  // Google 스프레드시트 연동 — 불러오는 데 시간이 걸리거나 실패해도
+  // 화면은 이미 로컬 데이터로 표시되어 있으므로 사용자는 대기하지 않는다.
+  // ---------------------------------------------------------------------
+  if (typeof loadSheetReadingData === "function") {
+    loadSheetReadingData().then((sheetData) => {
+      if (sheetData && sheetData.length) {
+        READING_DATA.length = 0;
+        READING_DATA.push(...sheetData);
+        render();
+      }
+    });
+  }
 })();
