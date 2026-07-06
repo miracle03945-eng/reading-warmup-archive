@@ -131,6 +131,7 @@
     if (!q) return true;
     if (item.title.toLowerCase().includes(q)) return true;
     if (item.topic.toLowerCase().includes(q)) return true;
+    if (item.book.toLowerCase().includes(q)) return true;
     if (item.keywords.some((k) => k.toLowerCase().includes(q))) return true;
     return false;
   }
