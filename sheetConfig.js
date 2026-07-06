@@ -13,4 +13,4 @@
   - SHEET_CSV_URL을 빈 문자열로 두면 스프레드시트 연동 없이 data.js의 기본 데이터만 사용한다.
   - 스프레드시트 내용을 수정한 뒤에는 사이트를 새로고침하면 최신 내용이 반영된다.
 */
-const SHEET_CSV_URL = "";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTn4vGTlW7XjC16bYk-ScoEwa5SvDM0cD-pNHawHFID6iFYLKbv4kIsHoHflBBUQFhsbdSP9_wmQXTR/pub?gid=335912978&single=true&output=csv";

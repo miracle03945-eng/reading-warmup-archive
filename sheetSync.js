@@ -74,6 +74,12 @@
     return value.split("|").map((s) => s.trim()).filter(Boolean);
   }
 
+  // 구글 스프레드시트가 "02"처럼 0으로 시작하는 값을 숫자 2로 자동 변환해버리는 경우를 보정한다.
+  function normalizePassageNo(value) {
+    if (/^\d$/.test(value)) return "0" + value;
+    return value;
+  }
+
   function mapRowToPassage(row) {
     if (!row.id || !row.book || !row.title) return null;
 
@@ -95,7 +101,7 @@
       book: row.book,
       level: row.level,
       unit: row.unit,
-      passageNo: row.passageNo,
+      passageNo: normalizePassageNo(row.passageNo),
       category: row.category,
       title: row.title,
       topic: row.topic,
