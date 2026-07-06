@@ -31,6 +31,7 @@
     passageSelect: document.getElementById("filter-passage"),
     categorySelect: document.getElementById("filter-category"),
     searchInput: document.getElementById("search-input"),
+    searchBtn: document.getElementById("search-btn"),
     resetBtn: document.getElementById("reset-btn"),
     resultCount: document.getElementById("result-count"),
     cardGrid: document.getElementById("card-grid"),
@@ -127,13 +128,27 @@
   // ---------------------------------------------------------------------
   function matchesSearch(item, query) {
     if (!query) return true;
-    const q = query.trim().toLowerCase();
-    if (!q) return true;
-    if (item.title.toLowerCase().includes(q)) return true;
-    if (item.topic.toLowerCase().includes(q)) return true;
-    if (item.book.toLowerCase().includes(q)) return true;
-    if (item.keywords.some((k) => k.toLowerCase().includes(q))) return true;
-    return false;
+    // 쉼표·줄바꿈·"|"로 여러 키워드를 한 번에 붙여넣어도(예: 태그 목록 복사) 검색되도록
+    // 검색어를 여러 개의 단어로 나눠 하나라도 일치하면 결과에 포함한다.
+    const terms = query.split(/[\n,|]+/).map((t) => t.trim().toLowerCase()).filter(Boolean);
+    if (terms.length === 0) return true;
+
+    return terms.some((q) => {
+      if (item.title.toLowerCase().includes(q)) return true;
+      if (item.topic.toLowerCase().includes(q)) return true;
+      if (item.book.toLowerCase().includes(q)) return true;
+      // 검색창은 한 줄 입력창이라 여러 태그를 줄바꿈째로 붙여넣으면 구분자 없이
+      // 하나로 붙어버릴 수 있다. 그래도 찾을 수 있도록 키워드는 양방향으로 비교한다.
+      if (
+        item.keywords.some((k) => {
+          const kl = k.toLowerCase();
+          return kl.includes(q) || q.includes(kl);
+        })
+      ) {
+        return true;
+      }
+      return false;
+    });
   }
 
   function getFilteredData() {
@@ -155,10 +170,27 @@
     return CATEGORY_COLORS[category] || CATEGORY_COLOR_FALLBACK;
   }
 
+  // 키워드 태그를 클릭하면 그 키워드로 바로 검색되는 버튼을 만든다.
+  function createKeywordChip(keyword) {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "keyword-chip";
+    chip.textContent = keyword;
+    chip.setAttribute("aria-label", `'${keyword}' 검색`);
+    chip.addEventListener("click", (e) => {
+      e.stopPropagation();
+      searchFor(keyword);
+    });
+    return chip;
+  }
+
   function createCard(item) {
-    const card = document.createElement("button");
-    card.type = "button";
+    // 카드 안에 클릭 가능한 키워드 태그(버튼)를 넣어야 하므로,
+    // 카드 자체는 <button>이 아니라 역할만 button인 컨테이너로 만든다.
+    const card = document.createElement("div");
     card.className = "card";
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
     card.setAttribute("data-id", item.id);
     card.setAttribute("aria-label", `${item.book} ${item.unit} - ${item.passageNo} · ${item.title} 자세히 보기`);
 
@@ -186,10 +218,7 @@
     const keywordWrap = document.createElement("div");
     keywordWrap.className = "card__keywords";
     item.keywords.slice(0, 5).forEach((k) => {
-      const kw = document.createElement("span");
-      kw.className = "keyword-chip";
-      kw.textContent = k;
-      keywordWrap.appendChild(kw);
+      keywordWrap.appendChild(createKeywordChip(k));
     });
 
     const cta = document.createElement("span");
@@ -205,6 +234,12 @@
     card.appendChild(cta);
 
     card.addEventListener("click", () => openModal(item, card));
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openModal(item, card);
+      }
+    });
 
     return card;
   }
@@ -245,8 +280,6 @@
       ["주제영역", item.category],
       ["지문 제목", item.title],
       ["지문 주제", item.topic],
-      ["Reading Time", item.readingTime],
-      ["Words", `${item.words} words`],
     ];
     infoRows.forEach(([label, value]) => {
       const row = document.createElement("div");
@@ -264,10 +297,7 @@
     const kwRow = document.createElement("div");
     kwRow.className = "modal-info__keywords";
     item.keywords.forEach((k) => {
-      const kw = document.createElement("span");
-      kw.className = "keyword-chip";
-      kw.textContent = k;
-      kwRow.appendChild(kw);
+      kwRow.appendChild(createKeywordChip(k));
     });
     infoBox.appendChild(kwRow);
     wrap.appendChild(infoBox);
@@ -491,13 +521,33 @@
     render();
   });
 
+  function triggerSearch() {
+    clearTimeout(searchDebounceTimer);
+    state.search = el.searchInput.value;
+    renderCards();
+  }
+
+  // 키워드 태그를 클릭했을 때 그 키워드로 즉시 검색한다.
+  function searchFor(keyword) {
+    if (!el.modalOverlay.hidden) closeModal();
+    el.searchInput.value = keyword;
+    triggerSearch();
+    el.searchInput.focus();
+  }
+
   el.searchInput.addEventListener("input", () => {
     clearTimeout(searchDebounceTimer);
-    searchDebounceTimer = setTimeout(() => {
-      state.search = el.searchInput.value;
-      renderCards();
-    }, 250);
+    searchDebounceTimer = setTimeout(triggerSearch, 250);
   });
+
+  el.searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      triggerSearch();
+    }
+  });
+
+  el.searchBtn.addEventListener("click", triggerSearch);
 
   el.resetBtn.addEventListener("click", () => {
     state.book = "";

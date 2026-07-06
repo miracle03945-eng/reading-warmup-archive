@@ -161,6 +161,16 @@ button, input, select {
   grid-column: span 2;
 }
 
+.search-input-group {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.search-input-group input {
+  flex: 1;
+  min-width: 0;
+}
+
 .filter-field--reset {
   justify-content: flex-end;
 }
@@ -284,9 +294,17 @@ button, input, select {
 .keyword-chip {
   font-size: 0.72rem;
   background: #F2F2F7;
+  border: none;
   border-radius: 999px;
-  padding: 2px 8px;
+  padding: 3px 10px;
   color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.keyword-chip:hover {
+  background: var(--violet);
+  color: #fff;
 }
 
 .card__cta {

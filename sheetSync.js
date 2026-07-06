@@ -105,8 +105,6 @@
       category: row.category,
       title: row.title,
       topic: row.topic,
-      readingTime: row.readingTime,
-      words: row.words && !isNaN(Number(row.words)) ? Number(row.words) : row.words,
       keywords: splitList(row.keywords),
       materials: ["A4 배경지식", "5분 아이스브레이킹"],
       background: {

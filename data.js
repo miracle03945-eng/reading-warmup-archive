@@ -44,8 +44,6 @@ const READING_DATA = [
     category: "Environment",
     title: "미세 플라스틱의 역습",
     topic: "미세 플라스틱과 해양 오염",
-    readingTime: "1' 00\"",
-    words: 106,
     keywords: ["미세 플라스틱", "플라스틱", "해양 오염", "바다", "물고기", "환경", "재활용", "지구"],
     materials: ["A4 배경지식", "5분 아이스브레이킹"],
     background: {
@@ -105,8 +103,6 @@ const READING_DATA = [
     category: "School Life",
     title: "우리 반의 특별한 규칙",
     topic: "학급 규칙과 협동심",
-    readingTime: "0' 55\"",
-    words: 98,
     keywords: ["학급 규칙", "협동", "학교", "친구", "역할"],
     materials: ["A4 배경지식", "5분 아이스브레이킹"],
     background: {
@@ -143,8 +139,6 @@ const READING_DATA = [
     category: "Culture",
     title: "세계의 인사법 이야기",
     topic: "나라별 인사 문화의 차이",
-    readingTime: "1' 05\"",
-    words: 112,
     keywords: ["인사", "문화", "세계", "예절", "전통"],
     materials: ["A4 배경지식", "5분 아이스브레이킹"],
     background: {
@@ -181,8 +175,6 @@ const READING_DATA = [
     category: "Science",
     title: "잠은 왜 꼭 자야 할까?",
     topic: "수면과 뇌 건강",
-    readingTime: "1' 10\"",
-    words: 120,
     keywords: ["수면", "뇌", "건강", "기억력", "과학"],
     materials: ["A4 배경지식", "5분 아이스브레이킹"],
     background: {
@@ -219,8 +211,6 @@ const READING_DATA = [
     category: "History",
     title: "지도에 없던 길을 찾다",
     topic: "탐험가들의 항해와 지도 제작",
-    readingTime: "1' 20\"",
-    words: 138,
     keywords: ["탐험", "항해", "지도", "역사", "발견"],
     materials: ["A4 배경지식", "5분 아이스브레이킹"],
     background: {
@@ -257,8 +247,6 @@ const READING_DATA = [
     category: "Daily Life",
     title: "아침 루틴이 하루를 바꾼다",
     topic: "규칙적인 아침 습관의 효과",
-    readingTime: "1' 05\"",
-    words: 115,
     keywords: ["아침", "루틴", "습관", "일상", "생산성"],
     materials: ["A4 배경지식", "5분 아이스브레이킹"],
     background: {
@@ -295,8 +283,6 @@ const READING_DATA = [
     category: "Animals",
     title: "철새는 길을 어떻게 기억할까",
     topic: "철새의 이동과 방향 감각",
-    readingTime: "1' 15\"",
-    words: 125,
     keywords: ["철새", "이동", "방향 감각", "동물", "이주"],
     materials: ["A4 배경지식", "5분 아이스브레이킹"],
     background: {
