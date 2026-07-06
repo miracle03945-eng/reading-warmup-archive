@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>교재 연계 Reading Warm-up 아카이브</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__pattern" aria-hidden="true"></div>
+    <div class="hero__inner">
+      <h1 class="hero__title">교재 연계 Reading Warm-up 아카이브</h1>
+      <p class="hero__desc">리딩 지문 주제와 연결된 A4 배경지식 자료와 5분 아이스브레이킹 활동을 제공합니다.</p>
+      <p class="hero__sub">교재와 Unit을 선택해 수업 전 바로 활용할 수 있는 워밍업 자료를 찾아보세요.</p>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="filters" aria-label="자료 검색 및 필터">
+      <div class="filters__grid">
+        <div class="filter-field">
+          <label for="filter-book">교재</label>
+          <select id="filter-book"></select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-level">레벨</label>
+          <select id="filter-level"></select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-unit"><span id="filter-unit-label">단원 / 회차</span></label>
+          <select id="filter-unit"></select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-passage">지문 번호</label>
+          <select id="filter-passage"></select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-category">주제영역</label>
+          <select id="filter-category"></select>
+        </div>
+        <div class="filter-field filter-field--search">
+          <label for="search-input">검색</label>
+          <input type="search" id="search-input" placeholder="제목, 주제, 키워드로 검색" aria-label="제목, 주제, 키워드로 검색" />
+        </div>
+        <div class="filter-field filter-field--reset">
+          <button type="button" id="reset-btn" class="btn btn--ghost" aria-label="모든 필터와 검색어 초기화">초기화</button>
+        </div>
+      </div>
+      <p id="result-count" class="result-count" aria-live="polite"></p>
+    </section>
+
+    <section class="cards-section" aria-label="자료 목록">
+      <p id="empty-message" class="empty-message" aria-live="polite" hidden>검색 결과가 없습니다.</p>
+      <div id="card-grid" class="card-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>교재 연계 Reading Warm-up 아카이브 · 교사용 자료실 프로토타입</p>
+  </footer>
+
+  <div id="modal-overlay" class="modal-overlay" hidden>
+    <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal__header">
+        <h2 id="modal-title" class="modal__title"></h2>
+        <button type="button" id="modal-close-btn" class="modal__close" aria-label="상세보기 닫기">✕</button>
+      </div>
+      <div id="modal-body" class="modal__body"></div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
